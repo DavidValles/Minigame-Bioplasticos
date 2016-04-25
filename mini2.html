@@ -1,0 +1,103 @@
+<html>
+<head>
+	<title>Bioplasticos</title>
+	<link rel="stylesheet" href="css/home.css">
+	<script src="js/jquery-2.2.3.min.js"></script>
+</head>
+<body background="bg1.png">
+
+		<section class="mini2">
+
+			<div id="pregunta1" class="container">
+
+				<div class="pregunta">
+					<h1 class="titulo" align="center">Pregunta numero 1</h1>
+					
+					<div class="button boton_a boton1">
+						Respuesta A
+					</div>
+					
+					<div class="button boton_a boton1">
+						Respuesta B
+					</div>
+
+					<div class="button boton_a boton1">
+						Respuesta C
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div id="pregunta2" class="container" hidden="true">
+
+
+				<div class="pregunta">
+					<h1 class="titulo" align="center">Pregunta numero 2</h1>
+					
+					<div class="button boton_a boton2">
+						Respuesta A
+					</div>
+					
+					<div class="button boton_a boton2">
+						Respuesta B
+					</div>
+
+					<div class="button boton_a boton2">
+						Respuesta C
+					</div>
+
+
+				</div>
+
+			</div>
+
+			<div id="pregunta3" class="container" hidden="true">
+
+
+				<div class="pregunta">
+					<h1 class="titulo" align="center">Pregunta numero 3</h1>
+					
+					<div class="button boton_a boton3">
+						Respuesta A
+					</div>
+					
+					<div class="button boton_a boton3">
+						Respuesta B
+					</div>
+
+					<div class="button boton_a boton3">
+						Respuesta C
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+		</section>	
+
+
+	<script>
+		$(document).ready(function() {
+
+			$(".boton1").click(function(){
+				$("#pregunta1").slideUp(300).delay(500);
+				$("#pregunta2").delay(500).slideDown();
+				});
+
+			$(".boton2").click(function(){
+				$("#pregunta2").slideUp(300).delay(500);
+				$("#pregunta3").delay(500).slideDown();
+				});
+
+			$(".boton3").click(function(){
+				$("#pregunta3").slideUp(300).delay(500);
+				});
+		});
+
+	</script>
+</body>
+</html>
