@@ -1,0 +1,102 @@
+html, body{
+	color:#282828;
+	height: 100%;
+	font-family: 'Montserrat',sans-serif;
+}
+
+body{
+	margin-right: 50px;
+}
+
+h1{
+	font-size: 50px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: white;
+}
+
+.titulo{
+
+}
+
+h2{
+	font-size: 25px;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: white;
+}
+
+.instrucciones{
+	color: white;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.button{
+	
+	background-color: #ffb400;
+	padding: 20px;
+	border-bottom: 6px solid #e49100;
+	border-radius:5px;
+	border-right: 3px solid #e49100;
+	-webkit-border-radius:5px;
+	width: 100%;
+	margin-right: 10px;
+	transition: all 200ms linear;
+	margin-bottom: 20px;
+	text-align: center;
+vertical-align: middle;
+}
+
+.boton_a{
+	color:#FFFFFF;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-weight: 400;
+
+}
+
+.button:last-of-type{
+	margin-right: 0;
+}
+
+.button:hover{
+	background-color: #e49100;
+	border-top: 6px solid #ffb400;
+	border-bottom: 0 none;
+}
+
+ul{
+	list-style-type:none;
+}
+
+li{
+	margin-top: 10px;
+}
+
+canvas{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-bottom: 6px solid #000;
+	border-radius:5px;
+	border-right: 3px solid #000;
+}
+
+.opciones{
+	animation-name: example;
+    animation-duration: 5s;
+}
+
+@keyframes example {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.instrucciones{
+	background-color: #ffb400;
+	width: 650px;
+	padding:10px;
+	border-bottom: 6px solid #e49100;
+	border-radius:5px;
+	border-right: 3px solid #e49100;
+}

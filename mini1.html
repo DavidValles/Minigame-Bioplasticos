@@ -1,0 +1,328 @@
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Collect</title>
+
+	<style>
+		* { padding: 0; margin: 0; }
+    	canvas { background: #739BC4; display: block; margin: 0 auto; }
+	</style>
+
+	<link rel="stylesheet" href="css/home.css">
+
+</head>
+<body  background="bg1.png">
+
+		<section class="home">
+
+			<div class="container">
+
+
+				<div class="opciones">
+					<h1 class="titulo" align="center">Bioplasticos</h1>
+				</div>
+
+			</div>
+
+
+		
+
+
+	<canvas id="myCanvas" width="650" height="500" ></canvas>
+
+			<div class="container" align = "center">
+				<div class="instrucciones">
+					<h3>INSTRUCCIONES</h3>
+					<ul>
+					  <li>Tienes un minuto para recolectar todas las algas que puedas.</li>
+					  <li>Usa <- y -> para moverte</li>
+					  <li>Cuidado con las rocas, te hacen perder tus algas</li>
+					</ul>
+				</div>
+			</div>
+	</section>	
+
+	<div style="display:none;">
+	  <img id="sourcePlant" src="algea.png"
+	       width="75" height="20">
+	  <img id="sourceBoatL" src="boatLeft.png"
+	       width="40" height="20">
+	   <img id="sourceBoatR" src="boatRight.png"
+	       width="40" height="20">
+		<img id="sourceRock" src="rock.png"
+	       width="40" height="20">
+
+	     <audio autoplay controls style="display:none;">
+		  <source src="Juego.wav" type="audio/wav">
+		</audio>
+
+		<audio id="rockS" controls style="display:none;">
+		  <source src="error.wav" type="audio/wav">
+		</audio>
+
+		<audio id="algaS" controls style="display:none;">
+		  <source src="ida.wav" type="audio/wav">
+		</audio>
+	</div>
+
+
+	<script>
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+
+		//ball
+		var x = canvas.width/2;
+		var y = canvas.height-30;
+		var dx = 0;
+		var dy = 2;
+		var ballRadius = 10;
+
+		//paddle
+		var paddleHeight = 50;
+		var paddleWidth = 80;
+		var paddleX = (canvas.width-paddleWidth)/2;
+		var rightPressed = false;
+		var leftPressed = false;
+		var imageBoatL = document.getElementById("sourceBoatL");
+		var imageBoatR = document.getElementById("sourceBoatR");
+		var imDir = true;
+
+		var score = 0;
+		var tiempo = 120;
+		var startTime = new Date();
+
+		//plant
+		var plantRowCount = 4;
+		var plantWidth = 40;
+		var plantHeight = 20;
+		var plantPadding = 10;
+		var plantOffsetTop = 30;
+		var plantOffsetLeft = 30;
+		var imagePlant = document.getElementById("sourcePlant");
+
+		//rock
+		var rockRowCount = 6;
+		var rockWidth = 40;
+		var rockHeight = 20;
+		var rockPadding = 10;
+		var imageRock = document.getElementById("sourceRock");
+
+		var rocks = [];
+		for(i=0;i<rockRowCount;i++){
+			//generate random rocks
+			var x1 = Math.floor((Math.random() * 600) - plantWidth);
+			var speed = Math.floor((Math.random() * 5)+1);
+			rocks[i] = { x:x1, y:-40, status: 1, d:speed };
+		}
+
+		var plants = [];
+		for(i=0; i<plantRowCount;i++){
+			//generate random plants
+			var x1 = Math.floor((Math.random() * 600) - plantWidth);
+			var speed = Math.floor((Math.random() * 5)+1);
+			plants[i] = { x:x1, y:-40, status: 1, d:speed };
+		}
+
+		document.addEventListener("keydown", keyDownHandler, false);
+		document.addEventListener("keyup", keyUpHandler, false);
+
+		function keyDownHandler(e) { // keys right and left pressed
+		    if(e.keyCode == 39) {
+		        rightPressed = true;
+		        imDir = false;
+		    }
+		    else if(e.keyCode == 37) {
+		        leftPressed = true;
+		        imDir = true;
+		    }
+		}
+
+		function keyUpHandler(e) { // keys right and left not pressed
+		    if(e.keyCode == 39) {
+		        rightPressed = false;
+		    }
+		    else if(e.keyCode == 37) {
+		        leftPressed = false;
+		    }
+		}
+
+		function drawPlant() {
+		    for(c=0; c<plantRowCount; c++) {
+		    	if(plants[c].status == 1){
+
+		    		ctx.beginPath();
+		    		//var pat=ctx.createPattern(imagePlant,'no-repeat');
+		    		//ctx.rect(plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		ctx.drawImage(imagePlant,plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		//ctx.fillStyle = pat;
+		    		//ctx.fill();
+		    		ctx.closePath();
+
+		    	}
+		    }
+		}
+
+
+		function drawRock() {
+		    for(c=0; c<rockRowCount; c++) {
+		    	if(rocks[c].status == 1){
+
+		    		ctx.beginPath();
+		    		//var pat=ctx.createPattern(imagePlant,'no-repeat');
+		    		//ctx.rect(plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		ctx.drawImage(imageRock,rocks[c].x, rocks[c].y, rockWidth, rockHeight);
+		    		//ctx.fillStyle = pat;
+		    		//ctx.fill();
+		    		ctx.closePath();
+
+		    	}
+		    }
+		}
+
+
+		function drawPaddle() {
+		    ctx.beginPath();
+		    //ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
+		    //ctx.fillStyle = "#FFF";
+		    //ctx.fill();
+		    
+		 		if(imDir){ctx.drawImage(imageBoatL,paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);}
+		 		else{ctx.drawImage(imageBoatR,paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);}
+		    ctx.closePath();
+		}
+
+		function drawScore() {
+		    ctx.font = "16px Arial";
+		    ctx.fillStyle = "#FFF";
+		    ctx.fillText("Score: "+score, 8, 20);
+		}
+
+		function drawTime() {
+		    ctx.font = "16px Arial";
+		    ctx.fillStyle = "#FFF";
+		    ctx.fillText("Time: "+tiempo, 510, 20);
+		}
+
+		function drawElapsedTime() {
+  		  var elapsed = parseInt((new Date() - startTime) / 1000);
+    	  tiempo = elapsed;
+		}
+
+		//collision detection for rocks and plants
+		function collisionDetection() {
+		
+		    for(c=0; c<plantRowCount; c++) {
+		        var p = plants[c];
+		        var x1 = Math.floor((Math.random() * 600) - plantWidth);
+				var speed = Math.floor((Math.random() * 4)+1);
+		            if(p.status == 1) {
+		                if(p.y + dy > canvas.height - paddleHeight) {
+
+		                	if(p.x > paddleX && p.x < paddleX + paddleWidth){
+		                    	 score++;		// se suma una y desaparece del canvas.
+		                    	 p.d = speed;
+		                    	 p.y = -30;
+		                    	 p.x = x1;
+
+		                    	 var vid = document.getElementById("algaS");
+								vid.autoplay = true;
+								vid.load();
+
+
+		                	}
+		                	else{
+		                		 p.d = speed;
+		                    	 p.y = -40;
+		                    	 p.x = x1;
+		                	}
+
+		                }
+		           }
+		    }
+
+
+		    for(c=0; c<rockRowCount; c++) {
+		        var p = rocks[c];
+		        var x1 = Math.floor((Math.random() * 600) - plantWidth);
+				var speed = Math.floor((Math.random() * 4)+1);
+		            if(p.status == 1) {
+		                if(p.y + dy > canvas.height - paddleHeight) {
+
+		                	if(p.x > paddleX && p.x < paddleX + paddleWidth){
+		                    	 
+		                		score = score - 5;
+		                		if(score<0){
+		                			score = 0;
+		                		}
+		                    	 		// se suma una y desaparece del canvas.
+		                    	 p.d = speed;
+		                    	 p.y = -30;
+		                    	 p.x = x1;
+
+		                    	 var vid = document.getElementById("rockS");
+								vid.autoplay = true;
+								vid.load();
+
+
+		                	}
+		                	else{
+		                		 p.d = speed;
+		                    	 p.y = -40;
+		                    	 p.x = x1;
+		                	}
+
+		                }
+		           }
+		    }
+	}
+
+
+		function plantSpeed(){
+			for(i=0; i<plantRowCount;i++){
+				plants[i].x += 0;
+				plants[i].y += plants[i].d;
+			}
+		}
+
+		function rockSpeed(){
+			for(i=0; i<rockRowCount;i++){
+				rocks[i].x += 0;
+				rocks[i].y += rocks[i].d;
+			}
+		}
+
+		function draw() {
+		    ctx.clearRect(0, 0, canvas.width, canvas.height);
+		   // drawBall();
+		    drawPaddle();
+		    drawScore();
+		    drawPlant();
+		    drawRock();
+		    drawElapsedTime();
+		    drawTime();
+		    
+
+		   if(rightPressed && paddleX < canvas.width-paddleWidth) {
+		        paddleX += 7;
+		    }
+		    else if(leftPressed && paddleX > 0) {
+		        paddleX -= 7;
+		    }
+
+		    if(tiempo>60){
+		    	//time is out;
+		    	//alert("Time is up");
+    			//document.location.reload();
+		    }
+
+		    rockSpeed();
+		    plantSpeed();
+		    collisionDetection();
+
+		}
+
+		setInterval(draw, 10);
+			</script>
+
+</body>
+</html>
