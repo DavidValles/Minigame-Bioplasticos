@@ -34,7 +34,7 @@
 				<div class="instrucciones">
 					<h3>INSTRUCCIONES</h3>
 					<ul>
-					  <li>Tienes un minuto para recolectar todas las algas que puedas.</li>
+					  <li>Tienes un minuto para recolectar todas las algas y huesos que puedas.</li>
 					  <li>Usa <- y -> para moverte</li>
 					  <li>Cuidado con las rocas, te hacen perder tus algas</li>
 					</ul>
@@ -50,6 +50,10 @@
 	   <img id="sourceBoatR" src="boatRight.png"
 	       width="40" height="20">
 		<img id="sourceRock" src="rock.png"
+	       width="40" height="20">
+	   <img id="sourcePot" src="pot.png"
+	       width="40" height="20">
+	    <img id="sourceBones" src="bones.png"
 	       width="40" height="20">
 
 	     <audio autoplay controls style="display:none;">
@@ -99,6 +103,7 @@
 		var plantOffsetTop = 30;
 		var plantOffsetLeft = 30;
 		var imagePlant = document.getElementById("sourcePlant");
+		var imageBones = document.getElementById("sourceBones");
 
 		//rock
 		var rockRowCount = 6;
@@ -153,7 +158,11 @@
 		    		ctx.beginPath();
 		    		//var pat=ctx.createPattern(imagePlant,'no-repeat');
 		    		//ctx.rect(plants[c].x, plants[c].y, plantWidth, plantHeight);
-		    		ctx.drawImage(imagePlant,plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		if(c%2==0){
+		    			ctx.drawImage(imagePlant,plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		}else{
+		    		ctx.drawImage(imageBones,plants[c].x, plants[c].y, plantWidth, plantHeight);
+		    		}
 		    		//ctx.fillStyle = pat;
 		    		//ctx.fill();
 		    		ctx.closePath();
@@ -259,7 +268,7 @@
 		                    	 p.y = -30;
 		                    	 p.x = x1;
 
-		                    	 var vid = document.getElementById("rockS");
+		                    	var vid = document.getElementById("rockS");
 								vid.autoplay = true;
 								vid.load();
 
@@ -312,7 +321,7 @@
 		    if(tiempo>60){
 		    	//time is out;
 		    	//alert("Time is up");
-    			//document.location.reload();
+    			window.location.replace("animacion.html");
 		    }
 
 		    rockSpeed();
